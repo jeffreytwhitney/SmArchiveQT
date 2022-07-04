@@ -21,6 +21,9 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLineEdit" name="txtSourceDirectory">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -31,6 +34,9 @@
     </property>
    </widget>
    <widget class="QLineEdit" name="txtArchiveDirectory">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -145,7 +151,7 @@
      <rect>
       <x>140</x>
       <y>140</y>
-      <width>301</width>
+      <width>461</width>
       <height>17</height>
      </rect>
     </property>
@@ -158,7 +164,7 @@
      <rect>
       <x>140</x>
       <y>160</y>
-      <width>351</width>
+      <width>461</width>
       <height>17</height>
      </rect>
     </property>
@@ -171,7 +177,7 @@
      <rect>
       <x>140</x>
       <y>180</y>
-      <width>181</width>
+      <width>471</width>
       <height>17</height>
      </rect>
     </property>
@@ -230,12 +236,12 @@
    </widget>
    <widget class="QPushButton" name="btnArchive">
     <property name="enabled">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>340</y>
+      <y>350</y>
       <width>75</width>
       <height>23</height>
      </rect>
