@@ -73,10 +73,7 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
         sourceFile = Path(sourceFilePath)
         archiveFile = Path(archiveFilePath)
 
-
         size = sourceFile.stat().st_size
-
-
         sourceFileSize = "{:,} bytes".format(sourceFile.stat().st_size)
         sourceFileLastModified = datetime.fromtimestamp(sourceFile.stat().st_mtime)
 
