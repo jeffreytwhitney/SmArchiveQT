@@ -90,8 +90,8 @@ class Ui_SmArchiveMainWindow(object):
     def retranslateUi(self, SmArchiveMainWindow):
         _translate = QtCore.QCoreApplication.translate
         SmArchiveMainWindow.setWindowTitle(_translate("SmArchiveMainWindow", "MainWindow"))
-        self.txtSourceDirectory.setText(_translate("SmArchiveMainWindow", "c:\\temp\\source\\"))
-        self.txtArchiveDirectory.setText(_translate("SmArchiveMainWindow", "c:\\temp\\archive\\"))
+        self.txtSourceDirectory.setText(_translate("SmArchiveMainWindow", ""))
+        self.txtArchiveDirectory.setText(_translate("SmArchiveMainWindow", ""))
         self.btnSourceDirectory.setText(_translate("SmArchiveMainWindow", "..."))
         self.btnArchiveDirectory.setText(_translate("SmArchiveMainWindow", "..."))
         self.lblSourceDirectory.setText(_translate("SmArchiveMainWindow", "Source Directory:"))
