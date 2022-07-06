@@ -169,7 +169,7 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
                 self.update_archive_output(f"Archived file '{archive_file_path}'")
                 return True
             else:
-                # test_mode = False
+                # test_mode = True
                 self.update_archive_output(f"Would have archived file '{archive_file_path}'")
                 return False
 
