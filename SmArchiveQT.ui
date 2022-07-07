@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>c:\</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="txtArchiveDirectory">
@@ -49,7 +49,7 @@
      </rect>
     </property>
     <property name="text">
-     <string/>
+     <string>c:\</string>
     </property>
    </widget>
    <widget class="QPushButton" name="btnSourceDirectory">

@@ -114,7 +114,8 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
             if (file_extension == ".*") or (x.suffix == file_extension):
                 archive_file = ArchiveFileInfo(str(x.absolute()), file_suffix_length)
                 allSourceFilesList.append(archive_file)
-                if not uniqueSourceFilesList.__contains__(archive_file):
+
+                if archive_file not in uniqueSourceFilesList:
                     uniqueSourceFilesList.append(archive_file)
 
         for y in uniqueSourceFilesList:
