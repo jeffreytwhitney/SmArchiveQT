@@ -5,6 +5,7 @@ from operator import attrgetter
 from pathlib import Path
 from datetime import datetime
 import sys
+from typing import List
 from SmArchive_UI import Ui_SmArchiveMainWindow
 
 
@@ -101,11 +102,12 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
         self.archive_files(source_directory, archive_directory, file_suffix_length,
                            file_extension, overwrite_mode, skip_mode, test_mode)
 
-    def archive_files(self, source_directory, archive_directory, file_suffix_length,
-                      file_extension, overwrite_mode, skip_mode, test_mode):
-        allSourceFilesList = []
-        uniqueSourceFilesList = []
-        numberOfArchivedFiles = 0
+    def archive_files(self, source_directory: str, archive_directory: str, file_suffix_length: int,
+                      file_extension: str, overwrite_mode: bool, skip_mode: bool, test_mode: bool):
+
+        allSourceFilesList: List[ArchiveFileInfo] = []
+        uniqueSourceFilesList: List[ArchiveFileInfo] = []
+        numberOfArchivedFiles: int = 0
 
         sourceFiles = Path(source_directory)
         for x in sourceFiles.iterdir():
@@ -129,7 +131,8 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
 
         self.update_archive_output(f"Total number of files moved: {numberOfArchivedFiles}")
 
-    def archive_file(self, source_file_path, archive_file_path, overwrite_mode, skip_mode, test_mode):
+    def archive_file(self, source_file_path: str, archive_file_path: str, overwrite_mode: bool, skip_mode: bool,
+                     test_mode: bool):
         if Path(archive_file_path).exists():
             if skip_mode is True:
                 return False
