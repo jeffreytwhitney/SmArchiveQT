@@ -106,7 +106,7 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
                       file_extension: str, overwrite_mode: bool, skip_mode: bool, test_mode: bool):
 
         allSourceFilesList: List[ArchiveFileInfo] = []
-        uniqueSourceFilesList: List[ArchiveFileInfo] = []
+        uniqueSourceFilesList = set([])
         numberOfArchivedFiles: int = 0
 
         sourceFiles = Path(source_directory)
@@ -116,12 +116,10 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
             if (file_extension == ".*") or (x.suffix == file_extension):
                 archive_file = ArchiveFileInfo(str(x.absolute()), file_suffix_length)
                 allSourceFilesList.append(archive_file)
-
-                if archive_file not in uniqueSourceFilesList:
-                    uniqueSourceFilesList.append(archive_file)
+                uniqueSourceFilesList.add(archive_file)
 
         for y in uniqueSourceFilesList:
-            filteredFileList = [s for s in allSourceFilesList if s.Hash == y.Hash]
+            filteredFileList = [s for s in allSourceFilesList if s == y]
             maxFilteredFile = max(filteredFileList, key=attrgetter('ArchiveFileSuffix'))
             for z in filteredFileList:
                 if z.ArchiveFileSuffix != maxFilteredFile.ArchiveFileSuffix:
@@ -191,10 +189,12 @@ class ArchiveFileInfo:
         uniqueFileNameLength = len(Path(file_path).stem) - self.FileSuffixLength
         self.UniqueFileName = self.FileName[:uniqueFileNameLength]
         self.ArchiveFileSuffix = self.FileName[-self.FileSuffixLength:]
-        self.Hash = self.UniqueFileName + self.FileExtension
 
     def __eq__(self, other):
-        return other.Hash == self.Hash
+        return other.UniqueFileName == self.UniqueFileName and other.FileExtension == self.FileExtension
+
+    def __hash__(self):
+        return hash((self.UniqueFileName, self.FileExtension))
 
 
 def main():
