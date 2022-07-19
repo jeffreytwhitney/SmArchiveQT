@@ -5,6 +5,7 @@ from operator import attrgetter
 from pathlib import Path
 from datetime import datetime
 import sys
+from typing import List
 from SmArchive_UI import Ui_SmArchiveMainWindow
 
 
@@ -101,11 +102,12 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
         self.archive_files(source_directory, archive_directory, file_suffix_length,
                            file_extension, overwrite_mode, skip_mode, test_mode)
 
-    def archive_files(self, source_directory, archive_directory, file_suffix_length,
-                      file_extension, overwrite_mode, skip_mode, test_mode):
-        allSourceFilesList = []
-        uniqueSourceFilesList = []
-        numberOfArchivedFiles = 0
+    def archive_files(self, source_directory: str, archive_directory: str, file_suffix_length: int,
+                      file_extension: str, overwrite_mode: bool, skip_mode: bool, test_mode: bool):
+
+        allSourceFilesList: List[ArchiveFileInfo] = []
+        uniqueSourceFilesList = set([])
+        numberOfArchivedFiles: int = 0
 
         sourceFiles = Path(source_directory)
         for x in sourceFiles.iterdir():
@@ -114,12 +116,10 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
             if (file_extension == ".*") or (x.suffix == file_extension):
                 archive_file = ArchiveFileInfo(str(x.absolute()), file_suffix_length)
                 allSourceFilesList.append(archive_file)
-
-                if archive_file not in uniqueSourceFilesList:
-                    uniqueSourceFilesList.append(archive_file)
+                uniqueSourceFilesList.add(archive_file)
 
         for y in uniqueSourceFilesList:
-            filteredFileList = [s for s in allSourceFilesList if s.Hash == y.Hash]
+            filteredFileList = [s for s in allSourceFilesList if s == y]
             maxFilteredFile = max(filteredFileList, key=attrgetter('ArchiveFileSuffix'))
             for z in filteredFileList:
                 if z.ArchiveFileSuffix != maxFilteredFile.ArchiveFileSuffix:
@@ -129,7 +129,8 @@ class SmArchiveMainWindow(QtWidgets.QMainWindow, Ui_SmArchiveMainWindow):
 
         self.update_archive_output(f"Total number of files moved: {numberOfArchivedFiles}")
 
-    def archive_file(self, source_file_path, archive_file_path, overwrite_mode, skip_mode, test_mode):
+    def archive_file(self, source_file_path: str, archive_file_path: str, overwrite_mode: bool, skip_mode: bool,
+                     test_mode: bool):
         if Path(archive_file_path).exists():
             if skip_mode is True:
                 return False
@@ -188,10 +189,12 @@ class ArchiveFileInfo:
         uniqueFileNameLength = len(Path(file_path).stem) - self.FileSuffixLength
         self.UniqueFileName = self.FileName[:uniqueFileNameLength]
         self.ArchiveFileSuffix = self.FileName[-self.FileSuffixLength:]
-        self.Hash = self.UniqueFileName + self.FileExtension
 
     def __eq__(self, other):
-        return other.Hash == self.Hash
+        return other.UniqueFileName == self.UniqueFileName and other.FileExtension == self.FileExtension
+
+    def __hash__(self):
+        return hash((self.UniqueFileName, self.FileExtension))
 
 
 def main():
